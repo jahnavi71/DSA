@@ -1,0 +1,415 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        int arr[] = new int[n];
+        
+        for(int i=0;i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+        
+        int dp[] = new int[n+1];
+        
+        dp[n] = 1;
+        
+        System.out.println(csvjTab(arr , dp));
+        
+    }
+    
+    public static int csvjTab(int arr[], int dp[]){
+        int n = arr.length;
+        for(int i=n-1;i>=0;i--){
+            for(int j = 1;j<=arr[i] && ((i+j) < dp.length);j++){
+                dp[i] = dp[i] + dp[i+j];
+            }
+        }
+    return dp[0];
+    }
+
+}
+
+
+
+
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+         int arr[ ] = new int[n];
+         for(int i=0;i<n;i++){
+             arr[i] = sc.nextInt();
+         }
+         
+         Integer dp[] = new Integer[n+1];
+         
+         dp[n] = 0;
+         /*System.out.println(csmmTab(arr,dp));
+         }
+         
+    public static Integer csmmTab(int arr[],Integer dp[]){
+             int n = arr.length;*/
+             for(int i= n-1; i>=0;i--){
+                 if(arr[i] > 0){ // only if arr[i] is not null 
+                      
+                      int min = Integer.MAX_VALUE; // min as infinity 
+                      
+                      for(int j = 1; j<= arr[i] && i+j <dp.length;j++){
+                          
+                          if(dp[i+j] != null)//take min only for nonn null values
+                          min = Math.min(min,dp[i+j]);
+                      }
+                      
+                      if(min != Integer.MAX_VALUE){ // infinity +1 would bring -ve infinity as answer
+                          dp[i] = min + 1; 
+                      }
+                 }
+             }
+            System.out.println(dp[0]);
+            //return dp[0];
+         }
+
+}
+
+
+// gold mine
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args) throws Exception {
+    Scanner sc = new Scanner (System.in);
+    int n = sc.nextInt();
+    int m = sc.nextInt();
+    int arr[][] = new int[n][m];
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        arr[i][j] = sc.nextInt();
+      }
+
+    }
+    int dp[][] = new int [arr.length][arr[0].length];
+
+    //column wise traversal
+    for (int j = arr[0].length - 1; j >= 0; j--) {
+      for (int i = arr.length - 1; j >= 0; j--) {
+        if (j == arr[0].length - 1){
+            dp[i][j] = arr[i][j];
+            
+        }
+        else if(i == 0){
+            dp[i][j] = arr[i][j] + Math.max(dp[i][j+1],dp[i+1][j+1]);
+        }
+        else if(i == arr.length-1){
+            dp[i][j] = arr[i][j] + Math.max(dp[i][j+1],dp[i-1][j+1]);
+        }
+        else{
+            dp[i][j] = arr[i][j] + Math.max(dp[i][j+1],Math.max(dp[i-1][j+1],dp[i+1][j+1]));
+        }
+
+        }
+    }
+    int max = dp[0][0];
+    
+    for(int i =1;i<dp.length;i++){
+        max = Math.max(max,dp[i][0]);
+        
+    }
+    System.out.println(max);
+  }
+}
+
+
+target sum subsets
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int arr[] = new int [n];
+    for(int i =0;i<n;i++){
+        arr[i] = sc.nextInt();
+    }
+    
+    int target = sc.nextInt();
+    boolean dp[][] = new boolean[n+1][target+1];
+    
+    for(int i = 0;i<dp.length;i++){
+        for(int j =0;j<dp[0].length;j++){
+            if(i == 0 && j == 0){
+                dp[i][j] = true;
+            }
+            else if(j == 0){
+                dp[i][j] = true;
+            }
+            else if(i == 0){
+                dp[i][j] = false;
+            }
+            else{
+                if(dp[i-1][j] == true){
+                    dp[i][j] = dp[i-1][j];
+                }
+                
+                int val = arr[i-1];
+                if(j>=val){
+                if(dp[i-1][j-val] == true){
+                dp[i][j] = true;
+                    
+                
+                }
+                }
+            }
+        }
+    }
+    System.out.println(dp[arr.length][target]);
+    }
+}
+
+
+// coins change combination
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int coins[] = new int[n];
+        for(int i=0;i<coins.length;i++){
+            coins[i] = sc.nextInt();
+        }
+        int amt = sc.nextInt();
+        
+        int dp[] = new int[amt+1];
+        dp[0] = 1; // to pay 0 is 1 way that is not ppaying
+        for(int i=0;i<coins.length;i++){
+            // i is the indx of ip array
+            for(int j=coins[i];j<dp.length;j++){
+                //j is the index of dp array
+                // we traverse dp array from >= coin value
+                dp[j] = dp[j] + dp[j - coins[i]];
+            }
+        }
+        System.out.println(dp[amt]); 
+    }
+    
+}
+
+coins change combination
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int coins[] = new int[n];
+        for(int i=0;i<coins.length;i++){
+            coins[i] = sc.nextInt();
+        }
+        int amt = sc.nextInt();
+        
+        int dp[] = new int[amt+1];
+        dp[0] = 1; // to pay 0 is 1 way that is not ppaying
+        for(int i=1;i<dp.length;i++){
+            //traverse for each amt until target amt
+            for(int j=0;j<coins.length;j++){
+  
+                // subtract every value of coins array from dp array current amt
+	// leave the subtraction if -ve index occurs
+                if((i-coins[j])>=0)
+                dp[i] = dp[i] + dp[i - coins[j]];
+            }
+        }
+        System.out.println(dp[amt]); 
+    }
+    
+}
+
+
+0-1 knapsack
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args) throws Exception {
+
+    
+
+   
+
+        //taking the input
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int val[] = new int[n];
+
+        for (int i = 0; i < val.length; i++) {
+          val[i] = sc.nextInt();
+        }
+        int wts[] = new int[n];
+
+        for (int i = 0; i < wts.length; i++) {
+          wts[i] = sc.nextInt();
+        }
+
+        int cap = sc.nextInt();
+
+        int dp[][] = new int[wts.length + 1][cap + 1];
+
+        for (int i = 1; i < dp.length; i++) {
+          for (int j = 1; j < dp[0].length; j++) {
+            dp[i][j] = dp[i - 1][j]; // i doesnt bat
+
+            if (j >= wts[i - 1]) {
+              int rCap = wts[i - 1];
+              if (dp[i - 1][j - rCap] + val[i - 1] > dp[i - 1][j]) {
+                dp[i][j] = dp[i - 1][j - rCap] + val[i - 1] ;
+              }
+              else {
+                dp[i][j] = dp[i - 1][j];
+              }
+
+            }
+            else {
+              dp[i][j] = dp[i - 1][j];
+            }
+          }
+        }
+        System.out.println(dp[n][cap]);
+      }
+    }
+ 
+
+//unbounded knapsack
+
+	import java.io.*;
+	import java.util.*;
+
+	public class Main {
+
+	    public static void main(String[] args) throws Exception {
+        
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int val[] = new int[n];
+
+        for (int i = 0; i < val.length; i++) {
+          val[i] = sc.nextInt();
+        }
+        int wts[] = new int[n];
+
+        for (int i = 0; i < wts.length; i++) {
+          wts[i] = sc.nextInt();
+        }
+
+        int cap = sc.nextInt();
+        
+        
+        int dp[] = new int[cap+1];
+        dp[0] = 0;
+        int max = 0;
+        for(int bagc = 1; bagc<=cap;bagc++){//for every index of dp
+            for(int i = 0; i< wts.length;i++){//we are iterating for every item
+                if(wts[i] <=bagc){
+                    int rbagc = bagc - wts[i];
+                    int rbagv = dp[rbagc];
+                    int tbagv = rbagv + val[i];
+                    if(tbagv > max){
+                        max = tbagv;
+                    }
+                }
+                
+            }
+            
+            dp[bagc] = max; // filling every idx of dp array with its max bag val
+        }
+        
+        
+        System.out.println(dp[cap]);
+	    }
+	}
+
+
+// count binary strings
+
+import java.io.*;
+import java.util.*;
+
+public class Main{
+
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    
+    int n = sc.nextInt();
+    
+    int oczeros = 1;
+    int ocones = 1;
+    
+    for(int i= 2; i<=n;i++){
+        int nczeros = ocones;
+        int ncones = oczeros + ocones;
+         
+        oczeros = nczeros;
+        ocones = ncones;
+    }
+    System.out.println(oczeros + ocones);
+ }
+
+}
+
+
+// arrange buildings
+
+import java.io.*;
+import java.util.*;
+
+public class Main{
+
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    
+    long n = sc.nextInt();
+    
+    long ob = 1;
+    long os = 1;
+    
+    for(int i = 2 ;i<= n;i++){
+        long nb = os;
+        long ns = os + ob;
+        
+        ob = nb;
+         os = ns;
+    }
+    long total = os + ob; 
+    // count of various combinations of arrangemets of buildings on either side of road
+    long ways = total * total ;
+    
+    // total number of ways of arranging(permutation of the combinations found)
+    System.out.println(ways);
+ }
+
+}
